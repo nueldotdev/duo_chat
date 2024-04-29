@@ -1,0 +1,51 @@
+@import url('all.css');
+
+.action-btn {
+    position: relative;
+    background-image: linear-gradient(108deg, #ff0018 41%, #654187 100%);
+    filter: drop-shadow(0 0 10px rgba(255, 103, 103, 0.5));
+    color: var(--lightest-color);
+    padding: 15px 30px;
+    border-radius: 30px;
+    border: none;
+    font-size: large;
+    cursor: pointer;
+    font-weight: 800;
+    transition: .3s;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.action-btn::after{
+    content: ''; 
+    /* position: absolute; */
+    top: 0;
+    left: 0; 
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(108deg, #ff0018 41%, #654187 100%);
+    z-index: -1; 
+    opacity: 0.5;  
+    pointer-events: none;
+  }
+
+
+  /* Experiment */
+  .falling-element {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: fall 5s linear infinite;
+  }
+
+  @keyframes fall {
+    0% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(110vh);
+    }
+  }

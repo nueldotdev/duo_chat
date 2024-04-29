@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+}
+
+.main-section {
+    position: relative;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.main-section.row {
+    flex-direction: row;
+    gap: 5px;
+    padding: 0 10px 10px;
+    border-radius: 20px;
+}
+
+.main-section.chat-page {
+    flex-direction: row;
+    background-color: var(--black-color);
+    margin: 2px;
+    border-radius: inherit;
+}
+
+.img-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+img {
+    width: 100%;
+}
+
+:root {
+    --brand-color: #F63C59;
+    --darkest-color: #1B1B1E;
+    --black-color: #0e0e0f;
+    --dark-color: #3C3C43;
+    --mid-color: #6D676E;
+    --light-color: #E7DBE9;
+    --lightest-color: #FFFFFF;
+
+    --gradient-color: linear-gradient(108deg, #ff0018 41%, #654187 100%);
+    --form-gradient-color: linear-gradient(108deg, #72010cc0 41%, #372449 100%);
+}
+
+body {
+    background-color: var(--black-color);
+    overflow: hidden;
+}
+
+.main {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    color: var(--lightest-color);
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+}
+
+.landing-top {
+    width: 100%;
+    padding: 2rem 0 0;
+}
+
+.landing-top-inner {
+    margin: 0 20px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.user-form-btns button.btn {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: small;
+    cursor: pointer;
+    width: 6rem;
+    border: 2px solid var(--brand-color);
+    transition: .3s;
+}
+.user-form-btns button.btn.register {
+    margin: 0 10px 0 0;
+    background-color: var(--brand-color);
+    color: initial;
+}
+
+.user-form-btns button.btn.login {
+    background-color: transparent;
+    color: var(--brand-color);
+}
+
+.user-form-btns button.btn:hover {
+    background-color: var(--light-color);
+    color: var(--darkest-color);
+    border: 2px solid var(--light-color);
+    transform: scale(1.1);
+}
+
+.title-text {
+    font-size: xxx-large;
+    background-image: linear-gradient(155deg, #ff0018 30%, #9856d7 60%);
+    text-align: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.material-symbols-rounded {
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 200,
+    'GRAD' 0,
+    'opsz' 24
+}

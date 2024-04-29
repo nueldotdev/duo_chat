@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="/images/duoLogo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>DUO Chat - Register</title>
+</head>
+<body>
+    <div class="main">
+        <div class="landing-top">
+            <div class="landing-top-inner">
+                <div class="logo">
+                    <a href="/">
+                        <img src="/svg/duologo.svg" alt="logo">
+                    </a>
+                </div>
+                <div class="active-page">
+                    <h1>Join DUO Chat!</h1>
+                </div>
+                <div class="user-form-btns">
+                    <button class="btn login">Back</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-section">
+            <div class="form-container">
+                <form id="register-form">
+                    <div class="input-field">
+                        <label for="username">username</label>
+                        <input type="text" name="username" id="username">
+                    </div>
+                    <div class="input-field">
+                        <label for="email">email</label>
+                        <input type="text" name="email" id="email">
+                    </div>
+                    <div class="input-field">
+                        <label for="password">password</label>
+                        <input type="password" name="password" id="password">
+                    </div>
+                    <div class="input-field">
+                        <label for="confirmPassword">confirm password</label>
+                        <input type="password" name="confirmPassword" id="confirmPassword">
+                    </div>
+                    <div class="user-form-btns">
+                        <button class="btn register">Register</button>
+                    </div>
+                </form>
+            </div>
+            <div class="already-have-account">
+                <p>Already have an account? <a href="/login">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const backBtn = document.querySelector('.btn.login');
+
+        backBtn.addEventListener('click', () => {
+            // window.location.href = '/';
+            history.back();
+        })
+    </script>
+    <script type="module" src="/js/regForm.js"></script>
+</body>
+</html>

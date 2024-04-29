@@ -1,0 +1,51 @@
+@import url('all.css');
+
+
+.form-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: var(--light-color);
+    background-image: var(--form-gradient-color);
+}
+
+.input-field {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.input-field label {
+    margin-bottom: 10px;
+    font-size: large;
+    text-transform: capitalize;
+}
+
+.input-field input {
+    width: 95%;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    font-size: medium;
+    color: var(--lightest-color);
+    padding: 10px;
+    background-color: #0000002b;
+    transition: .6s;
+}
+
+.input-field input:focus {
+    outline: none;
+    border: 2px solid #8f020298;
+}
+
+.already-have-account {
+    text-align: center;
+}
+
+.already-have-account a {
+    color: var(--brand-color);
+    text-decoration: underline;
+    font-style: italic;
+}

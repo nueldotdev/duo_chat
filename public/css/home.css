@@ -1,0 +1,269 @@
+@import url('all.css');
+
+body {
+    background-color: var(--black-color);
+}
+
+.home-top-area {
+    width: 100%;
+    background-color: var(--black-color);
+}
+
+.home-top-area-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+}
+
+.top-area-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.logo-area {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.divider {
+    height: 30px;
+    width: 0px;
+    border-left: 1px solid var(--dark-color);
+    margin: 0 20px;
+}
+
+.screen-links {
+    /* width: 25%; */
+    max-width: 200px;
+}
+
+.screen-links ul {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-evenly;
+}
+
+.screen-links ul li {
+    display: inline-block;
+    width: 100%;
+    /* margin: 0 15px; */
+    text-align: center;
+}
+
+.screen-link-btn {
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    padding: 5px 5px 2px;
+    margin: 0 5px;
+    /* width: 60%; */
+    cursor: pointer;
+    /* border: 1px solid; */
+    border-radius: 10px;
+    transition: .6s;
+}
+
+.screen-link-btn.active,
+.screen-link-btn:hover {
+    background-color: #252525;
+}
+
+.top-area-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-acc-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 3px 3px 13px;
+    background-color: var(--darkest-color);
+    border-radius: 30px;
+}
+
+.user-info {
+    margin-right: 10px;
+    font-size: small;
+}
+
+.user-img {
+    width: 30px;
+    height: 30px;
+}
+
+.user-img img {
+    width: 100%;
+    height: 100%;
+}
+
+.app-name {
+    margin-left: 10px;
+    font-size: x-small;
+}
+
+.page {
+    height: 100%;
+    width: 100%;
+    background-color: var(--darkest-color);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.screen1 {
+    flex: 1.5;
+    /* margin-left: 3.5rem; */
+}
+
+.screen2 {
+    flex: 3;
+}
+
+.screen3 {
+    flex: 1.5;
+    /* margin-right: 1rem; */
+}
+
+.screen-top {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.screen2 .screen-top {
+    padding: 5px;
+}
+
+.contact.chat-screen {
+    margin: 0;
+    padding: 5px;
+    width: 100%;
+}
+
+.screen-top-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: x-small;
+}
+
+.screen-top-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.search-area {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--dark-color);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.search-area input {
+    width: 100%;
+    /* height: 30px; */
+    background: transparent;
+    /* border-radius: 5px; */
+    border: none;
+    outline: none;
+    padding: 5px;
+    /* font-size: medium; */
+    color: var(--lightest-color);
+}
+
+.search-area input::placeholder {
+    color: var(--light-color);
+}
+
+.screen-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;   
+    color: inherit;
+}
+.page-icon-btn.send-btn {
+    padding: 1rem;
+    background-color: var(--brand-color);
+    border-radius: 50%;
+}
+
+.logout {
+    margin-right: 10px;
+}
+
+.screen-main {
+    height: 100%;
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 5px 10px;
+    background-color: transparent;
+    transition: .3s;
+}
+
+.chats .contact {
+    cursor: pointer;
+    border-radius: 10px;
+}
+.chats .contact.active,
+.chats .contact:hover {
+    background-color: var(--black-color);
+}
+
+.chats .contact-img {
+    width: 2.4rem;
+}
+.screen2 .contact-img {
+    width: 3rem;
+}
+
+.contact-info {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    font-size: small;
+    width: 80%;
+    margin: 0 10px;
+}
+
+.contact-info.full {
+    width: 100%;
+}
+
+.chat-input-section {
+    position: absolute;
+    bottom: 0;
+}
+
+.chat-input {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}

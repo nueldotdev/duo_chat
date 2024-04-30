@@ -205,9 +205,15 @@ body {
     color: inherit;
 }
 .page-icon-btn.send-btn {
-    padding: 1rem;
+    padding: .3rem;
     background-color: var(--brand-color);
     border-radius: 50%;
+
+    .material-symbols-rounded {
+    font-size: 2rem;
+    }
+;
+    /* width: 10%; */
 }
 
 .logout {
@@ -260,10 +266,33 @@ body {
 .chat-input-section {
     position: absolute;
     bottom: 0;
+    padding: 5px;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 0 0 inherit;
+    background-color: var(--darkest-color);
 }
 
 .chat-input {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    width: 100%;
+    /* margin: 0 10px; */
+}
+
+.chat-input textarea {
+    padding: 10px;
+    width: 100%;
+    resize: none;
+    font-size: 1rem;
+    height: 40px;
+    /* border-radius: inherit; */
+    background-color: transparent;
+    color: var(--lightest-color);
+    border: none;
+    border-bottom: 1px solid var(--dark-color);
+    max-height: 120px;
+    box-sizing: border-box;
+    outline: none;
 }

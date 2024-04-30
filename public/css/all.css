@@ -28,6 +28,25 @@
     border-radius: inherit;
 }
 
+.input-field {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.input-field.norm {
+    flex-direction: row;
+}
+
+.input-field.chat-in {
+    margin: 0;
+    width: 93%;
+    display: flex;
+    /* border-radius: 10px; */
+    overflow: hidden;
+}
+
 .img-cont {
     display: flex;
     align-items: center;

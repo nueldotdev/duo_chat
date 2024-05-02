@@ -6,14 +6,19 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
+const socketIo = require('socket.io');
+const http = require('http');
 
 // models
 const { User } = require('./models/models.js');
 // Load environment variables from .env file
 const secretKey = process.env.JWT_SECRET;
-const app = express();
 const uri = process.env.DATABASE_URI;
 const tokenBlacklist = new Set();
+
+const app = express();
+const server = http.createServer(app);
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -21,6 +26,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.use('/public', express.static(__dirname + '/public'));
+// app.use('/socket.io', express.static(__dirname + '/node_modules/socket.io-client/dist'));
 
 app.use((req, res, next) => {
     const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
@@ -169,6 +175,30 @@ app.post('/logout', (req, res) => {
   });
 
 
+// Socket.IO code
+const io = socketIo(server);
+
+
+io.on('connection', (socket) => {
+    console.log('A user connected');
+
+    // Listen for chat messages from clients
+    socket.on('chatMessage', (message) => {
+        console.log('Received message:', message);
+
+        // Broadcast the message to all connected clients, including the sender
+        io.emit('chatMessage', message);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('A user disconnected');
+    });
+});
+
+
+
+
+
 async function startServer() {
     try {
         mongoose.connect(uri)
@@ -177,7 +207,7 @@ async function startServer() {
 
                 // Start the server
                 port = process.env.PORT || 3000
-                app.listen(port, () => {
+                server.listen(port, () => {
                     console.log(`Server running on http://localhost:${port}`);
                 })
             })

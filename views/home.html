@@ -168,12 +168,14 @@
 
             </div> 
             <div class="main-section chat-page">
+                <div class="chats-area" id="chat-area">
+                </div>
                 <div class="chat-input-section">
                     <div class="chat-input">
                         <div class="input-field chat-in">
                             <textarea placeholder="Message" id="chat-textarea"></textarea>
                         </div>
-                        <button class="send-btn page-icon-btn">
+                        <button class="send-btn page-icon-btn" id="send-btn">
                             <span class="material-symbols-rounded">
                                 send
                             </span>
@@ -186,6 +188,7 @@
        </div>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/js/main.js"></script>
 </body>
 </html>

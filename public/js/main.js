@@ -69,7 +69,7 @@ chatTextarea.addEventListener('input', function () {
 
 function autoExpand(textarea) {
     // Reset textarea height to auto to properly calculate new height
-    textarea.style.height = '40px';
+    textarea.style.height = 'auto';
     // Calculate the new height based on the scroll height of the textarea
     textarea.style.height = textarea.scrollHeight + 'px';
 
@@ -93,55 +93,53 @@ document.getElementById('send-btn').addEventListener('click', () => {
     }
 });
 
-const chatArea = document.getElementById('chat-area');
-
-const handleChatBubbles = (mutationsList) => {
-    mutationsList.forEach((mutation) => {
-        if (mutation.type === 'childList') {
-            mutation.addedNodes.forEach((node) => {
-                if (node.nodeType === 1 && node.classList.contains('chat-bubble')) {
-                    const previousBubble = node.previousElementSibling;
-
-                    if (previousBubble && previousBubble.classList.contains('to-right')) {
-                        node.classList.add('same');
-                    } else if (previousBubble && previousBubble.classList.contains('to-left')) {
-                    }
-                }
-            });
-        }
-    });
-};
-
-const observer = new MutationObserver(handleChatBubbles);
-observer.observe(chatArea, { childList: true, subtree: true });
-
-
 const socket = io();
 // Handle incoming messages from the server
 socket.on('chatMessage', (data) => {
     // Extract message and sender information from the data
     const { message, sender } = data;
+    const chatMainInner = document.getElementById('chat-area');
 
     // Create a new chat bubble container
     const bubbleContainer = document.createElement('div');
     bubbleContainer.classList.add('chat-bubble-contained');
 
+    // add svg to message
+    // <svg width="20" height="13" viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+{/* <path d="M0 0.576315C0 0.576315 9.1505 0.192844 19 0.576315C13.893 14 31 24.8497 31 24.8497V24.8497C20.5703 25.551 10.6838 20.1273 5.67111 10.9543L0 0.576315Z" fill="#BE1731"/>
+</svg> */}
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M0 0.576315C0 0.576315 9.1505 0.192844 19 0.576315C13.893 14 31 24.8497 31 24.8497V24.8497C20.5703 25.551 10.6838 20.1273 5.67111 10.9543L0 0.576315Z');
+    path.setAttribute('fill', '#BE1731');
+    svg.appendChild(path);
+
     // Create a new chat bubble
     const bubble = document.createElement('div');
+    const bubbleText = document.createElement('p');
     bubble.classList.add('chat-bubble');
-    bubble.textContent = message;
+    bubbleText.textContent = message;
+    bubble.appendChild(bubbleText);
+    bubble.appendChild(svg);
 
+    let lastChat = chatMainInner.lastElementChild;
     // Determine the direction of the message based on the sender
     if (sender === username) {
         bubbleContainer.classList.add('to-right'); // Sender's message aligns to the left
+        if (lastChat && lastChat.classList.contains('to-right')) {
+            lastChat.classList.add('same-sender');
+        }
     } else {
         bubbleContainer.classList.add('to-left'); // Other user's message aligns to the right
+        if (lastChat && lastChat.classList.contains('to-left')) {
+            lastChat.classList.add('same-sender');
+        }
     }
 
     // Append the bubble to the bubble container
     bubbleContainer.appendChild(bubble);
 
     // Append the bubble container to the chat main inner container
-    const chatMainInner = document.getElementById('chat-area');
     chatMainInner.appendChild(bubbleContainer);
+    chatMainInner.scrollTop = chatMainInner.scrollHeight;
 });

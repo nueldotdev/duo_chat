@@ -11,7 +11,12 @@ export function userAlreadyLoggedIn() {
             }
         }).then(response => {
             if (!response.ok) {
-                throw new Error('Failed to verify token');
+                localStorage.removeItem('token');
+                if (window.location.pathname === "/home") {
+                    window.location.href = "/login"
+                }
+                // throw new Error('Failed to verify token');
+                
             } else {
                 if (window.location.pathname !== "/home") {
                     window.location.href = "/home"
@@ -19,6 +24,7 @@ export function userAlreadyLoggedIn() {
             }  
         })
     } else {
+        
         if (window.location.pathname === "/home") {
             window.location.href = "/login"
         }

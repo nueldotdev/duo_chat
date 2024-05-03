@@ -142,7 +142,6 @@ body {
 
 .screen2 .screen-top {
     padding: 5px;
-    height: 10%;
 }
 
 .contact.chat-screen {
@@ -269,7 +268,8 @@ body {
     height: 90%;
     padding: .8rem;
     box-sizing: border-box;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .chats-main {
@@ -298,17 +298,24 @@ body {
     /* margin: 0 10px; */
 }
 
-.chat-input textarea {
+.chat-input .chat-input-main {
+    border: 1px solid #ccc;
     padding: 10px;
+    border-radius: 4px;
+    min-height: 20px;
+    max-height: 100px;
+    overflow-y: auto;
+
+    /* padding: 10px; */
     width: 95%;
-    resize: none;
+    /* resize: none; */
     font-size: 1rem;
     height: 40px;
     /* border-radius: inherit; */
     background-color: transparent;
     color: var(--lightest-color);
-    border: none;
-    border-bottom: 1px solid var(--dark-color);
+    /* border: none;
+    border-bottom: 1px solid var(--dark-color); */
     max-height: 120px;
     box-sizing: border-box;
     outline: none;
@@ -319,6 +326,14 @@ body {
     display: flex;
     align-items: center;
     padding: 0 0 10px 0;
+}
+
+.chat-bubble-contained.same-sender {
+    padding: 0 0 2px 0;
+
+    .chat-bubble svg {
+        display: none;
+    }
 }
 
 .chat-bubble-contained.to-left {
@@ -336,63 +351,77 @@ body {
     /* background-color: var(--darkest-color); */
     max-width: 75%;
     text-align: left;
-    border-radius: 40px;
+    border-radius: 25px;
+    /* animation: enter; */
+    animation-duration: .3s;
+    animation-iteration-count: 1;
 }
+
+.chat-bubble p {
+    word-break: break-word;
+    position: relative;
+    white-space: pre-wrap;
+    z-index: 1;
+}
+
+.chat-bubble svg {
+    width: 32px;
+    height: 27px;
+    bottom: -2px;
+    position: absolute;
+    transform: rotate(355deg);
+}
+
+/* .to-left .chat-bubble p {
+    margin-left: 10px;
+} */
 
 .to-left .chat-bubble {
     background-color: var(--darkest-color);
+    animation-name: enter-left;
 }
 
-.to-left .chat-bubble::after {
-    content: '';
-    position: absolute;
-    width: 10px;
-    height: 22px;
-    background-color: var(--black-color);
-    left: -10px;
-    /* border: 1px solid; */
-    /* z-index: -1; */
-    bottom: -2px;
-    border-radius: 10px 0px 30px 0;
-}
-
-.to-right .chat-bubble::after {
-    content: '';
-    position: absolute;
-    width: 10px;
-    height: 60%;
-    background-color: var(--black-color);
-    right: -10px;
-    /* border: 1px solid; */
-    /* z-index: -1; */
-    bottom: -2px;
-    border-radius: 0px 10px 0 30px;
-}
-
-.to-left .chat-bubble::before {
-    content: '';
-    position: absolute;
-    width: 15px;
-    height: 20px;
-    background-color: var(--darkest-color);
-    left: -5px;
-    bottom: 0;
-    /* z-index: -1; */
-    border-radius: 10px 10px 30px 5px;
-}
-
-.to-right .chat-bubble::before {
-    content: '';
-    position: absolute;
-    width: 15px;
-    height: 50%;
-    background-color: var(--brand-color);
-    right: -5px;
-    bottom: 0;
-    /* z-index: -1; */
-    border-radius: 10px 10px 0 30px;
+.to-left .chat-bubble svg {
+    transform: scaleX(-1) rotate(355deg);
+    left: -7px;
+    path {
+        fill: var(--darkest-color);
+    }
 }
 
 .to-right .chat-bubble {
     background-color: var(--brand-color);
+    animation-name: enter-right;
+}
+
+.to-right .chat-bubble svg {
+    right: -10px;
+    path {
+        fill: var(--brand-color);
+    }
+}
+
+
+/* Animations */
+
+@keyframes enter-left {
+    0% {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+
+@keyframes enter-right {
+    0% {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
 }

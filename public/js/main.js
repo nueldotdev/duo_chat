@@ -83,17 +83,50 @@ function autoExpand(textarea) {
 }
 
 
+// document.getElementById('send-btn').addEventListener('click', () => {
+//     const message = document.getElementById('chat-textarea').value;
+//     if (message.trim() !== '') {
+//         // Emit the message along with sender information to the server
+//         socket.emit('chatMessage', { message, sender: username });
+//         chatTextarea.value = ''; // Clear the textarea
+//         chatTextarea.style.height = '40px';
+//     }
+// });
+
+
+
+const socket = io();
+
 document.getElementById('send-btn').addEventListener('click', () => {
-    const message = document.getElementById('chat-textarea').value;
+    const chatDiv = document.getElementById('chat-textarea');
+    const message = chatDiv.innerText.replace(/<br>/g, '\n'); // Replace <br> tags with newline characters
     if (message.trim() !== '') {
         // Emit the message along with sender information to the server
         socket.emit('chatMessage', { message, sender: username });
-        chatTextarea.value = ''; // Clear the textarea
-        chatTextarea.style.height = '40px';
+        console.log(message);
+        chatDiv.innerText = ''; // Clear the div content
+        chatDiv.style.height = 'auto';
     }
 });
 
-const socket = io();
+// Add event listener for Enter key press
+document.getElementById('chat-textarea').addEventListener('keydown', (event) => {
+    // Check if Enter key is pressed (keyCode 13) and not Shift key
+    if (event.keyCode === 13 && !event.shiftKey) {
+        event.preventDefault(); // Prevent default Enter key behavior (line break)
+        const chatDiv = event.target;
+        const message = chatDiv.innerText.replace(/<br>/g, '\n').trim(); // Replace <br> tags with newline characters and trim the text
+        if (message !== '') {
+            // Emit the message along with sender information to the server
+            socket.emit('chatMessage', { message, sender: username });
+            console.log(message);
+            chatDiv.innerText = ''; // Clear the div content
+            chatDiv.style.height = 'auto';
+        }
+    }
+});
+
+
 // Handle incoming messages from the server
 socket.on('chatMessage', (data) => {
     // Extract message and sender information from the data
@@ -105,9 +138,6 @@ socket.on('chatMessage', (data) => {
     bubbleContainer.classList.add('chat-bubble-contained');
 
     // add svg to message
-    // <svg width="20" height="13" viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-{/* <path d="M0 0.576315C0 0.576315 9.1505 0.192844 19 0.576315C13.893 14 31 24.8497 31 24.8497V24.8497C20.5703 25.551 10.6838 20.1273 5.67111 10.9543L0 0.576315Z" fill="#BE1731"/>
-</svg> */}
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     path.setAttribute('d', 'M0 0.576315C0 0.576315 9.1505 0.192844 19 0.576315C13.893 14 31 24.8497 31 24.8497V24.8497C20.5703 25.551 10.6838 20.1273 5.67111 10.9543L0 0.576315Z');

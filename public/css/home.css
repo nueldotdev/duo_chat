@@ -299,15 +299,15 @@ body {
 }
 
 .chat-input .chat-input-main {
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 2px;
     min-height: 20px;
     max-height: 100px;
     overflow-y: auto;
-
-    /* padding: 10px; */
+    text-align: left;
     width: 95%;
+    border-bottom: 1px solid var(--dark-color);
     /* resize: none; */
     font-size: 1rem;
     height: 40px;
@@ -329,9 +329,10 @@ body {
 }
 
 .chat-bubble-contained.same-sender {
-    padding: 0 0 2px 0;
+    padding: 0 0 1px 0;
 
-    .chat-bubble svg {
+    .chat-bubble
+    svg {
         display: none;
     }
 }
@@ -369,7 +370,7 @@ body {
     height: 27px;
     bottom: -2px;
     position: absolute;
-    transform: rotate(355deg);
+    /* transform: rotate(355deg); */
 }
 
 /* .to-left .chat-bubble p {
@@ -382,8 +383,8 @@ body {
 }
 
 .to-left .chat-bubble svg {
-    transform: scaleX(-1) rotate(355deg);
-    left: -7px;
+    transform: scaleX(-1);
+    left: -6px;
     path {
         fill: var(--darkest-color);
     }
@@ -395,7 +396,7 @@ body {
 }
 
 .to-right .chat-bubble svg {
-    right: -10px;
+    right: -6px;
     path {
         fill: var(--brand-color);
     }

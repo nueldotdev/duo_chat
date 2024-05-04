@@ -155,7 +155,7 @@ a {
 .user-form-btns button.btn.register {
     margin: 0 10px 0 0;
     background-color: var(--brand-color);
-    color: initial;
+    color: white;
 }
 
 .user-form-btns button.btn.login {

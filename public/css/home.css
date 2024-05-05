@@ -140,8 +140,25 @@ body {
     padding: 10px;
 }
 
+*.off {
+    display: none !important;
+}
+
 .screen2 .screen-top {
     padding: 5px;
+}
+
+.empty-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.empty-section .img-cont {
+    border-radius: 10px;
+    width: 20%;
 }
 
 .contact.chat-screen {
@@ -370,7 +387,7 @@ body {
     height: 27px;
     bottom: -2px;
     position: absolute;
-    /* transform: rotate(355deg); */
+    transform: rotate(358deg);
 }
 
 /* .to-left .chat-bubble p {
@@ -384,7 +401,7 @@ body {
 
 .to-left .chat-bubble svg {
     transform: scaleX(-1);
-    left: -6px;
+    left: -12px;
     path {
         fill: var(--darkest-color);
     }
@@ -396,12 +413,68 @@ body {
 }
 
 .to-right .chat-bubble svg {
-    right: -6px;
+    right: -13px;
     path {
         fill: var(--brand-color);
     }
+;
 }
 
+
+/* Modal Styling */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+/* .modal-content {
+    width: 50%;
+    height: 50%;
+    background-color: var(--darkest-color);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+} */
+
+.modal-content.active {
+    height: 50%;
+    background-color: var(--darkest-color);
+    border-radius: 10px;
+    display: flex;
+    color: var(--lightest-color);
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 2rem;
+}
+
+
+.modal-logout .modal-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+    .btn-primary {
+        margin-right: 0;
+    }
+}
+/* .modal-content p {
+    color: var(--lightest-color);
+} */
 
 /* Animations */
 

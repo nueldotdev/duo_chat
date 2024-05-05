@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <div class="top-area-right">
-                    <button class="logout page-icon-btn" title="Logout" id="logout-btn">
+                    <button class="logout page-icon-btn" title="Logout" id="logout-action">
                         <span class="material-symbols-rounded">
                             logout
                         </span>
@@ -97,7 +97,7 @@
             <div class="screen-main">
                 <div class="screen-main-inner">
                     <div class="chats">
-                        <div class="contact active">
+                        <div class="contact">
                             <div class="contact-img img-cont">
                                 <img src="/images/user-icon.png" alt="user">
                             </div>
@@ -142,7 +142,14 @@
             </div>
         </div>
         <div class="screen2 page">
-            <div class="screen-top">
+            <div class="empty-section">
+                <div class="img-cont">
+                    <img src="/images/chat-icon.png" alt="chat">
+                </div>
+                <h1>Start a chat</h1>
+                <p>Click on a contact to start a chat</p>
+            </div>
+            <div class="screen-top chat-screen-top">
                 <div class="screen-top-title">
                     <div class="contact chat-screen">
                             <div class="contact-img img-cont">
@@ -183,11 +190,12 @@
                         </button>
                     </div>
                 </div>
-            </div>    
+            </div>  
         </div>
         <div class="screen3 page"></div>
        </div>
     </div>
+    <div class="modal"></div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/js/main.js"></script>

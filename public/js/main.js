@@ -4,7 +4,8 @@ userAlreadyLoggedIn()
 
 var userContacts = [];
 var username = "";
-
+var action = 0;
+const socket = io();
 
 
 async function retrieveUserInfo() {
@@ -34,6 +35,8 @@ async function retrieveUserInfo() {
         });
 }
 
+retrieveUserInfo()
+
 function logout() {
     fetch('/logout', {
         method: 'POST',
@@ -54,18 +57,24 @@ function logout() {
     // Redirect the user to the login page or another appropriate page
 }
 
-retrieveUserInfo()
+
+function cancelLogout() {
+    var modalContent = modalDiv.querySelector('.modal-content');
+    modalDiv.classList.remove('active');
+    modalDiv.removeChild(modalContent);
+}
 
 
 // Declare elements
 const logoutBtn = document.getElementById('logout-btn');
+// const logoutCancel = document.getElementById('logout-cancel');
+const logoutAction = document.getElementById('logout-action');
+const modalDiv = document.querySelector('.modal');
+// const logoutModal = document.getElementById('modal-logout');/
 const chatTextarea = document.getElementById('chat-textarea');
-// Add event listener
-logoutBtn.addEventListener('click', logout)
 chatTextarea.addEventListener('input', function () {
     autoExpand(this);
 })
-
 
 function autoExpand(textarea) {
     // Reset textarea height to auto to properly calculate new height
@@ -81,21 +90,6 @@ function autoExpand(textarea) {
         textarea.style.overflowY = 'hidden'; // Hide vertical scrollbar if not needed
     }
 }
-
-
-// document.getElementById('send-btn').addEventListener('click', () => {
-//     const message = document.getElementById('chat-textarea').value;
-//     if (message.trim() !== '') {
-//         // Emit the message along with sender information to the server
-//         socket.emit('chatMessage', { message, sender: username });
-//         chatTextarea.value = ''; // Clear the textarea
-//         chatTextarea.style.height = '40px';
-//     }
-// });
-
-
-
-const socket = io();
 
 document.getElementById('send-btn').addEventListener('click', () => {
     const chatDiv = document.getElementById('chat-textarea');
@@ -172,4 +166,63 @@ socket.on('chatMessage', (data) => {
     // Append the bubble container to the chat main inner container
     chatMainInner.appendChild(bubbleContainer);
     chatMainInner.scrollTop = chatMainInner.scrollHeight;
+});
+
+// Add event listener
+// Add event listener to the background of the modal
+modalDiv.addEventListener('click', function(event) {
+if (event.target == modalDiv) {
+    modalDiv.classList.remove('active');
+    modalDiv.innerHTML = ``;
+}
+});
+
+logoutAction.addEventListener('click', () => {
+    var modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+    modalContent.classList.add('active');
+    modalContent.innerHTML = `<div class="modal-header">
+    <h1>Logout</h1>
+</div>
+<div class="modal-body">
+    <p>Are you sure you want to logout?</p>
+</div>
+<div class="modal-footer">
+    <button class="modal-cancel-btn btn btn-outline" id="cancel-logout" onclick="cancelLogout()">Cancel</button>
+    <button class="modal-logout-btn btn btn-primary" id="logout-btn" onclick="logout()">Logout</button>
+</div>`
+
+
+    // logoutModal.classList.add('active');
+    modalDiv.appendChild(modalContent);
+    modalDiv.classList.add('active');
+
+    // Add event listeners after modal content is appended
+    document.getElementById('cancel-logout').addEventListener('click', cancelLogout);
+    document.getElementById('logout-btn').addEventListener('click', logout);
+})
+
+const focusPage = document.querySelector('.screen2');
+const chatPage = document.querySelector('.main-section.chat-page');
+const chatTop = document.querySelector('.chat-screen-top');
+const emptySection = document.querySelector('.empty-section');
+const contacts = document.querySelectorAll('.contact');
+
+
+if (action == 0) {
+    chatPage.classList.add('off');
+    chatTop.classList.add('off');
+}
+
+contacts.forEach(element => {
+    element.addEventListener('click', () => {
+        chatPage.classList.remove('off');
+        chatTop.classList.remove('off');
+        emptySection.classList.add('off');
+        
+        contacts.forEach(one => {
+            one.classList.remove('active')
+        })
+        element.classList.add('active')
+    })
 });

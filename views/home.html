@@ -76,7 +76,7 @@
                 <div class="screen-top-title">
                     <h1>Chats</h1>
                     <div class="screen-icons">
-                        <button class="page-icon-btn">
+                        <button class="page-icon-btn" id="new-chat-btn">
                             <span class="material-symbols-rounded">
                                 edit_square
                             </span>
@@ -84,14 +84,14 @@
                     </div>
                 </div>
                 <div class="screen-top-search">
-                    <div class="search-area">
+                    <form class="search-area">
                         <input type="text" placeholder="Search">
                         <button class="search-btn page-icon-btn">
                             <span class="material-symbols-rounded">
                                 search
                             </span>
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="screen-main">
@@ -195,9 +195,37 @@
         <div class="screen3 page"></div>
        </div>
     </div>
-    <div class="modal"></div>
+    <div class="modal">
+        <div class="modal-content logout-modal">
+            <div class="modal-header">
+                <h1>Logout</h1>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-cancel-btn btn btn-outline" id="cancel-logout" onclick="cancelLogout()">Cancel</button>
+                <button class="modal-logout-btn btn btn-primary" id="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+        <div class="modal-content search-modal">
+            <div class="modal-header">
+                <h2>Search for users</h2>
+                <form action="" class="search-area" id="user-search-form">
+                    <input type="text" placeholder="Search by username" id="search-users-input">
+                    <button class="search-btn page-icon-btn" type="submit">
+                        <span class="material-symbols-rounded">
+                            search
+                        </span>
+                    </button>
+                </form>
+            </div>
+            <div class="modal-body"></div>  
+        </div>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/js/main.js"></script>
+    <script src="logic.js"></script>
 </body>
 </html>

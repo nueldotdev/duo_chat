@@ -59,11 +59,35 @@ function logout() {
 
 
 function cancelLogout() {
-    var modalContent = modalDiv.querySelector('.modal-content');
+    var logoutModal = modalDiv.querySelector('.logout-modal');
+    
+
+
+    logoutModal.classList.remove('active');
     modalDiv.classList.remove('active');
-    modalDiv.removeChild(modalContent);
 }
 
+
+function searchUsers() {
+    var searchInput = document.getElementById('search-input');
+    var searchResults = document.getElementById('search-results');
+
+    if (searchInput.value === '') {
+        searchResults.innerHTML = '';
+        return;
+    } else {
+        searchResults.innerHTML = '';
+        userContacts.forEach(contact => {
+            if (contact.username.toLowerCase().includes(searchInput.value.toLowerCase())) {
+                searchResults.innerHTML += `
+                <li class="search-result">${contact.username}</li>
+                `;
+            } else {
+                searchResults.innerHTML = '';
+            }
+        });
+    }
+}
 
 // Declare elements
 const logoutBtn = document.getElementById('logout-btn');
@@ -72,6 +96,10 @@ const logoutAction = document.getElementById('logout-action');
 const modalDiv = document.querySelector('.modal');
 // const logoutModal = document.getElementById('modal-logout');/
 const chatTextarea = document.getElementById('chat-textarea');
+const userSearch = document.querySelector('#user-search-form')
+var searchModal = modalDiv.querySelector('.search-modal')
+
+
 chatTextarea.addEventListener('input', function () {
     autoExpand(this);
 })
@@ -173,28 +201,20 @@ socket.on('chatMessage', (data) => {
 modalDiv.addEventListener('click', function(event) {
 if (event.target == modalDiv) {
     modalDiv.classList.remove('active');
-    modalDiv.innerHTML = ``;
+    var modalKids = modalDiv.querySelectorAll('.active');
+
+    modalKids.forEach(element => {
+        element.classList.remove('active');
+    });
 }
 });
 
 logoutAction.addEventListener('click', () => {
-    var modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content');
-    modalContent.classList.add('active');
-    modalContent.innerHTML = `<div class="modal-header">
-    <h1>Logout</h1>
-</div>
-<div class="modal-body">
-    <p>Are you sure you want to logout?</p>
-</div>
-<div class="modal-footer">
-    <button class="modal-cancel-btn btn btn-outline" id="cancel-logout" onclick="cancelLogout()">Cancel</button>
-    <button class="modal-logout-btn btn btn-primary" id="logout-btn" onclick="logout()">Logout</button>
-</div>`
+    var logoutModal = modalDiv.querySelector('.logout-modal');
+    
 
 
-    // logoutModal.classList.add('active');
-    modalDiv.appendChild(modalContent);
+    logoutModal.classList.add('active');
     modalDiv.classList.add('active');
 
     // Add event listeners after modal content is appended
@@ -207,6 +227,7 @@ const chatPage = document.querySelector('.main-section.chat-page');
 const chatTop = document.querySelector('.chat-screen-top');
 const emptySection = document.querySelector('.empty-section');
 const contacts = document.querySelectorAll('.contact');
+const newChatBtn = document.getElementById('new-chat-btn');
 
 
 if (action == 0) {
@@ -226,3 +247,95 @@ contacts.forEach(element => {
         element.classList.add('active')
     })
 });
+
+
+newChatBtn.addEventListener('click', () => {
+    searchModal.classList.add('active')
+    modalDiv.classList.add('active')
+
+    // document.getElementById('search-users-input').addEventListener('keyup', searchUsers);
+})
+
+// User search form
+userSearch.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const searchInput = document.getElementById('search-users-input').value;
+    const searchResult = searchModal.querySelector('.modal-body');
+    searchResult.innerHTML = ``;
+
+    try {
+        fetch(`/search?username=${searchInput}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token // Assuming you have the token stored somewhere accessible
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to search for users');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle the search results here (e.g., display them on the UI)
+            // console.log('Search results:', data);
+            data.forEach(user => {
+                var image;
+                if (user.profile_img) {
+                    image = user.profile_img
+                } else {
+                    image = '/images/user-icon.png'
+                }
+
+
+                // Create user contained 
+                var newUser = document.createElement('div');
+                newUser.classList.add('contact');
+                newUser.classList.add('chats');
+
+                // Create user image container
+                var imgCont = document.createElement('div');
+                imgCont.classList.add('contact-img');
+                imgCont.classList.add('img-cont');
+                var img = document.createElement('img');
+                img.src = image;
+                imgCont.appendChild(img);
+
+                // Create user info container
+                var userInfo = document.createElement('div');
+                userInfo.classList.add('contact-info');
+                var userName = document.createElement('div');
+                userName.classList.add('contact-name');
+                var name = document.createElement('h3');
+                name.innerText = user.username;
+                userName.appendChild(name);
+                userInfo.appendChild(userName);
+
+                // Create user options container
+                var userOptions = document.createElement('div');
+                userOptions.classList.add('contact-options');
+                var searchBtn = document.createElement('button');
+                searchBtn.classList.add('page-icon-btn');
+                searchBtn.classList.add('contact-search-btn');
+                searchBtn.addEventListener('click', addContact(searchBtn));
+                searchBtn.innerHTML = `<span class="material-symbols-rounded">
+                                            add
+                                        </span>`
+                userOptions.appendChild(searchBtn);
+
+
+                newUser.appendChild(imgCont);
+                newUser.appendChild(userInfo);
+                newUser.appendChild(userOptions);
+
+                searchResult.appendChild(newUser);
+            });
+        })
+        .catch(error => {
+            console.error('Error searching for users:', error);
+            // Handle the error (e.g., display an error message on the UI)
+        });        
+    } catch (error) {
+        console.log(error);
+    }
+})

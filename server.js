@@ -19,6 +19,11 @@ const tokenBlacklist = new Set();
 const app = express();
 const server = http.createServer(app);
 
+async function searchUsers(username) {
+    // Use a MongoDB query to find users matching the provided username
+    const searchResults = await User.find({ username: { $regex: username, $options: 'i' } });
+    return searchResults;
+}
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -87,6 +92,22 @@ app.get('/user', async (req, res) => {
         return res.status(403).json({ message: 'Invalid token' });
     }
 });
+
+// Express route for handling user search
+app.get('/search', async (req, res) => {
+    const { username } = req.query;
+    console.log(`Query = ${username}`)
+    try {
+        // Call a function to search users in the database based on the provided username
+        const users = await User.find({ username: { $regex: username, $options: 'i' } });
+
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Error searching users:', error);
+        res.status(500).json({ error: 'Failed to search users' });
+    }
+});
+
 
 // Route to verify JWT token
 app.get('/verify-token', (req, res) => {

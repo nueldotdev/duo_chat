@@ -10,7 +10,7 @@ const socketIo = require('socket.io');
 const http = require('http');
 
 // models
-const { User } = require('./models/models.js');
+const { User, Room, Request, Message } = require('./models/models.js');
 // Load environment variables from .env file
 const secretKey = process.env.JWT_SECRET;
 const uri = process.env.DATABASE_URI;
@@ -92,6 +92,12 @@ app.get('/user', async (req, res) => {
         return res.status(403).json({ message: 'Invalid token' });
     }
 });
+
+app.get('/users/:id', async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    res.json({ user });
+})
 
 // Express route for handling user search
 app.get('/search', async (req, res) => {
@@ -196,6 +202,99 @@ app.post('/logout', (req, res) => {
   });
 
 
+
+// Send request
+app.post('/send-request', async (req, res) => {
+    try {
+        const { senderId, recipientId } = req.body;
+
+        // Check if the sender and recipient exist
+        const sender = await User.findById(senderId);
+        const recipient = await User.findById(recipientId);
+
+        if (!sender || !recipient) {
+            return res.status(404).json({ message: 'Sender or recipient not found' });
+        }
+
+        // Check if a request already exists between these users
+        const existingRequest = await Request.findOne({
+            sender: senderId,
+            recipient: recipientId,
+            status: 'pending'
+        });
+
+        if (existingRequest) {
+            return res.status(400).json({ message: 'Request already sent' });
+        }
+
+        // Create a new request
+        const newRequest = new Request({
+            sender: senderId,
+            recipient: recipientId
+        });
+
+        await newRequest.save();
+
+        res.status(200).json({ message: 'Request sent successfully' });
+    } catch (error) {
+        console.error('Error sending request:', error);
+        res.status(500).json({ error: 'Failed to send request' });
+    }
+});
+
+// Accept request
+app.post('/accept-request', async (req, res) => {
+    try {
+        const { requestId } = req.body;
+        // console.log(requestId)
+
+        // Find the request
+        const request = await Request.findById(requestId);
+
+        if (!request || request.status !== 'pending') {
+            return res.status(404).json({ message: 'Request not found or already accepted/declined' });
+        }
+
+        // Update request status to accepted
+        request.status = 'accepted';
+        await request.save();
+
+        // Add sender to recipient's contacts and recipient to sender's contacts
+        await Promise.all([
+            User.findByIdAndUpdate(request.sender, { $addToSet: { contacts: request.recipient } }),
+            User.findByIdAndUpdate(request.recipient, { $addToSet: { contacts: request.sender } })
+        ]);
+
+        res.status(200).json({ message: 'Request accepted successfully' });
+    } catch (error) {
+        console.error('Error accepting request:', error);
+        res.status(500).json({ error: 'Failed to accept request' });
+    }
+});
+
+
+// Endpoint to get all requests for the active user
+app.get('/user-requests/:id', async (req, res) => {
+    try {
+        const userId = req.params.id; // Assuming req.user contains information about the active user
+
+        // Find all requests where the active user is either the sender or recipient
+        const requests = await Request.find({ $or: [{ sender: userId }, { recipient: userId }] });
+
+        res.status(200).json({ requests });
+    } catch (error) {
+        console.error('Error fetching requests:', error);
+        res.status(500).json({ error: 'Failed to fetch requests' });
+    }
+});
+// Functions
+function getRoomId(userId1, userId2) {
+    // Sort the user IDs to ensure consistency
+    const sortedIds = [userId1, userId2].sort();
+    // Concatenate the sorted user IDs to create a unique room ID
+    return sortedIds.join('_');
+}
+
 // Socket.IO code
 const io = socketIo(server);
 
@@ -205,11 +304,38 @@ io.on('connection', (socket) => {
 
     // Listen for chat messages from clients
     socket.on('chatMessage', (message) => {
-        console.log('Received message:', message);
+        
 
         // Broadcast the message to all connected clients, including the sender
         io.emit('chatMessage', message);
     });
+
+    socket.on('open-chat', async (info) => {
+        // console.log("open-chat: ", info)
+        try {
+            const { senderId, reciepientId } = info;
+            const sender = await User.findById(senderId);
+            const reciepient = await User.findById(reciepientId);
+            const roomId = getRoomId(sender._id, reciepient._id);
+
+            // Check if the room already exists
+            let room = await Room.findOne({ key: roomId });
+
+            // If the room doesn't exist, create it
+            if (!room) {
+                room = new Room({
+                    key: roomId,
+                    participants: [sender, reciepient] // Store user objects as participants
+                });
+                await room.save();
+            }
+
+            io.emit('open-chat', {room, reciepient});
+        } catch (error) {
+            console.error('Room:', error);
+        }
+
+    })
 
     socket.on('disconnect', () => {
         console.log('A user disconnected');

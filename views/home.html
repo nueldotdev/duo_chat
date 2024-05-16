@@ -96,47 +96,7 @@
             </div>
             <div class="screen-main">
                 <div class="screen-main-inner">
-                    <div class="chats">
-                        <div class="contact">
-                            <div class="contact-img img-cont">
-                                <img src="/images/user-icon.png" alt="user">
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">
-                                    <h3>John Doe</h3>
-                                </div>
-                                <div class="contact-status">
-                                    <p>Online</p>
-                                </div>
-                            </div>
-                            <div class="contact-options">
-                                <button class="page-icon-btn">
-                                    <span class="material-symbols-rounded">
-                                        more_vert
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="contact">
-                            <div class="contact-img img-cont">
-                                <img src="/images/user-icon.png" alt="user">
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-name">
-                                    <h3>John Doe</h3>
-                                </div>
-                                <div class="contact-status">
-                                    <p>Online</p>
-                                </div>
-                            </div>
-                            <div class="contact-options">
-                                <button class="page-icon-btn">
-                                    <span class="material-symbols-rounded">
-                                        more_vert
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="chats" id="contact-list">
                     </div>
                 </div>
             </div>
@@ -149,7 +109,7 @@
                 <h1>Start a chat</h1>
                 <p>Click on a contact to start a chat</p>
             </div>
-            <div class="screen-top chat-screen-top">
+            <div class="screen-top chat-screen-top off">
                 <div class="screen-top-title">
                     <div class="contact chat-screen">
                             <div class="contact-img img-cont">
@@ -174,7 +134,7 @@
                 </div>
 
             </div> 
-            <div class="main-section chat-page">
+            <div class="main-section chat-page off">
                 <div class="chats-area" id="chat-area">
                 </div>
                 <div class="chat-input-section">
@@ -192,7 +152,19 @@
                 </div>
             </div>  
         </div>
-        <div class="screen3 page"></div>
+        <div class="screen3 page">
+            <div id="requests-container">
+                <div id="rq-received">
+                    <div class="screen-top">
+                        <div class="screen-top-title">
+                            <h1>Received</h1>
+                        </div>
+                    </div>
+                    <div id="rq-received-container"></div>
+                </div>
+                <div id="rq-sent"></div>
+            </div>
+        </div>
        </div>
     </div>
     <div class="modal">
@@ -226,6 +198,6 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/js/main.js"></script>
-    <script src="logic.js"></script>
+    <script src="/js/logic.js"></script>
 </body>
 </html>

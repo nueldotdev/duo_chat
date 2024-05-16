@@ -19,10 +19,16 @@ const mediaSchema = new mongoose.Schema({
     videos: [{ type: String }], // Store multiple video URLs or file paths
 });
 
+// Define room schema
+const roomSchema = new mongoose.Schema({
+    key: {type: String},
+    participants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+});
+
 // Define message schema
 const messageSchema = new mongoose.Schema({
-    sender_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Reference to sender user
-    receiver_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Reference to receiver user
+    room: { type: mongoose.Schema.Types.ObjectId, ref: "Room" },
+    sender: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Reference to sender user
     message: String,
     media: { type: mongoose.Schema.Types.ObjectId, ref: "Media" }, // Reference to media associated with the message
     timestamp: { type: Date, default: Date.now },
@@ -36,13 +42,14 @@ const requestSchema = new mongoose.Schema({
     status: { type: String, enum: ['pending', 'accepted', 'declined'], default: 'pending' },
     created_at: { type: Date, default: Date.now },
     expires_at: { type: Date, default: () => new Date(+new Date() + 7 * 24 * 60 * 60 * 1000) } // Set expiration date to 1 week (7 days) from creation
-  });
+});
 
 
 // Define models based on schemas
 const User = mongoose.model("User", userSchema);
 const Media = mongoose.model("Media", mediaSchema);
+const Room = mongoose.model("Room", roomSchema);
 const Message = mongoose.model("Message", messageSchema);
 const Request = mongoose.model("Request", requestSchema);
 
-module.exports = { User, Message, Media, Request };
+module.exports = { User, Room, Message, Media, Request };
